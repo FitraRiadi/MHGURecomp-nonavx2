@@ -14,11 +14,23 @@ There is no "nonavx2" download on the official releases page. You build it yours
 
 ## Quick start (one click)
 
-1. Download **[build-nonavx2.bat](build-nonavx2.bat)** (button: *Raw* → *Save as*).
-2. Put it in a folder on the **same drive as your game dump**, for example `D:\MHGU-build\`.
-3. Double-click it. When it asks for a folder, **drag your game dump folder** (the one holding `exefs` and `romfs`) into the window and press Enter.
-4. Wait. The first run installs MSYS2, Python and the build tools, then compiles. Roughly 10-30 minutes, once.
+1. Download both **[check-dump.bat](check-dump.bat)** and **[build-nonavx2.bat](build-nonavx2.bat)** (button: *Raw* → *Save as*).
+2. Put them in a folder on the **same drive as your game dump**, for example `D:\MHGU-build\`.
+3. Double-click **check-dump.bat** and drag your dump folder in. It reads the build id of `exefs\main` and tells you in two seconds whether the dump will build — instead of failing 20 minutes into a compile.
+4. Double-click **build-nonavx2.bat**, drag the same folder in. The first run installs MSYS2, Python and the build tools, then compiles. Roughly 10-30 minutes, once.
 5. It starts the game when it's done. Next time, just run `MHGURecomp\build\mhgurecomp.exe`.
+
+### If it says "a dump that is not 1.4.0"
+
+That line is the script guessing, not the compiler's own error — the real message is a few lines above it. Almost always one of these:
+
+| What the log says | What it means |
+|---|---|
+| `No such file or directory` on `exefs/main` | You pointed at the wrong folder, or at a folder holding the `.nsp` instead of the extracted files. |
+| `exefs\main` is tiny | A shortcut or a stub, not the real module. |
+| It builds, but the game shows wrong text or crashes | The dump is the **base game only** — the 1.4.0 title update was never applied. |
+
+You need the base game **and** the 1.4.0 update, with the update's `exefs` and `romfs` copied **on top of** the base game's (overwrite when asked). In Ryujinx or Yuzu: install the update first, then *Extract Data / Dump RomFS* — the emulator writes out the patched files. A correct 1.4.0 `exefs\main` starts with build id `FB08F1D20FD1204F`; `check-dump.bat` prints yours.
 
 The script downloads only open-source software and the official MHGURecomp source. Your game files never leave your PC.
 
