@@ -14,11 +14,23 @@ Gak ada download "nonavx2" di halaman rilis resmi. Harus di-build sendiri dari d
 
 ## Cara cepat (sekali klik)
 
-1. Download **[build-nonavx2.bat](build-nonavx2.bat)** (tombol *Raw* → *Save as*).
+1. Download dua-duanya: **[check-dump.bat](check-dump.bat)** dan **[build-nonavx2.bat](build-nonavx2.bat)** (tombol *Raw* → *Save as*).
 2. Taruh di folder yang **satu drive dengan dump game** lu, misal `D:\MHGU-build\`.
-3. Double-click. Pas diminta folder, **tarik folder dump game** lu (yang isinya `exefs` dan `romfs`) ke jendelanya, tekan Enter.
-4. Tunggu. Run pertama install MSYS2, Python, dan tool build, lalu kompilasi. Sekitar 10-30 menit, sekali doang.
+3. Double-click **check-dump.bat**, tarik folder dump lu ke jendelanya. Dia baca build id `exefs\main` dan langsung bilang dump lu bisa di-build atau nggak — 2 detik, daripada gagal 20 menit kemudian.
+4. Double-click **build-nonavx2.bat**, tarik folder yang sama. Run pertama install MSYS2, Python, dan tool build, lalu kompilasi. Sekitar 10-30 menit, sekali doang.
 5. Selesai, game-nya langsung dibuka. Berikutnya tinggal jalanin `MHGURecomp\build\mhgurecomp.exe`.
+
+### Kalau muncul "a dump that is not 1.4.0"
+
+Baris itu tebakan script-nya, **bukan** error asli dari compiler — error sebenernya ada beberapa baris di atasnya. Hampir selalu salah satu dari ini:
+
+| Yang ada di log | Artinya |
+|---|---|
+| `No such file or directory` di `exefs/main` | Foldernya salah, atau yang lu tunjuk folder berisi `.nsp` bukan hasil ekstrak. |
+| `exefs\main` ukurannya kecil | Shortcut atau stub, bukan module asli. |
+| Build-nya jalan, tapi teks game ngaco / crash | Dump-nya **base game doang** — update 1.4.0 belum ditimpa. |
+
+Yang dibutuhin: base game **dan** update 1.4.0, dengan `exefs` dan `romfs` dari update **ditimpa di atas** punya base game (pilih overwrite kalau ditanya). Di Ryujinx atau Yuzu: install update-nya dulu, baru *Extract Data / Dump RomFS* — emulatornya yang nulis file versi udah dipatch. `exefs\main` 1.4.0 yang bener diawali build id `FB08F1D20FD1204F`; `check-dump.bat` bakal nampilin punya lu.
 
 Script-nya cuma download software open-source + source resmi MHGURecomp. File game lu gak pernah keluar dari PC lu.
 
